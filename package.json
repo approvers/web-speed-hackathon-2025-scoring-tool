@@ -1,0 +1,53 @@
+{
+  "name": "@wsh-2025/scoring-tool",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MPL-2.0",
+  "author": "CyberAgent, Inc.",
+  "type": "module",
+  "scripts": {
+    "format": "pnpm run format:eslint && pnpm run format:prettier",
+    "format:eslint": "eslint --fix --ext mts,cts,ts,tsx,mjs,cjs,js,jsx . || exit 0",
+    "format:prettier": "prettier --ignore-path .prettierignore  --write '**/*.{mts,cts,ts,tsx,mjs,cjs,js,jsx,json}'",
+    "start": "tsx ./src/index.ts"
+  },
+  "dependencies": {
+    "@actions/artifact": "2.3.1",
+    "@actions/github": "6.0.0",
+    "@inkkit/ink-markdown": "1.0.0",
+    "@playwright/test": "1.51.0",
+    "citty": "0.1.6",
+    "common-tags": "1.8.2",
+    "consola": "3.4.2",
+    "date-fns": "4.1.0",
+    "debug": "4.4.0",
+    "ink": "5.2.0",
+    "lighthouse": "12.4.0",
+    "lodash": "4.17.21",
+    "merge-error-cause": "5.0.1",
+    "mockdate": "3.0.5",
+    "playwright": "npm:playwright-core@1.51.0",
+    "puppeteer": "npm:puppeteer-core@24.4.0",
+    "react": "18.3.1",
+    "regexparam": "3.0.0",
+    "storycrawler": "5.0.1",
+    "tsx": "4.19.3",
+    "typescript": "5.8.2"
+  },
+  "devDependencies": {
+    "@3846masa/configs": "github:3846masa/configs#c684177302bec10915414d8b5032e9131f84320e",
+    "@types/common-tags": "1.8.4",
+    "@types/debug": "4.1.12",
+    "@types/lodash": "4.17.16",
+    "@types/react": "18.3.18",
+    "eslint": "9.22.0",
+    "globals": "16.0.0",
+    "prettier": "3.5.3"
+  },
+  "packageManager": "pnpm@8.15.8+sha256.691fe176eea9a8a80df20e4976f3dfb44a04841ceb885638fe2a26174f81e65e",
+  "pnpm": {
+    "patchedDependencies": {
+      "lighthouse@12.4.0": "patches/lighthouse@12.4.0.patch"
+    }
+  }
+}
