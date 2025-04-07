@@ -8,6 +8,9 @@ on:
       - created
 env:
   TZ: 'Asia/Tokyo'
+defaults:
+  run:
+    working-directory: ./bench
 jobs:
   register:
     runs-on: ubuntu-24.04
