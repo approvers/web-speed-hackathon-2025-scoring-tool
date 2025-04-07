@@ -30,9 +30,10 @@ type Target = {
     baseUrl: string;
     playwrightPage: playwright.Page;
     puppeteerPage: puppeteer.Page;
-  }) => Promise<{ scoreX100: number }>;
+  }) => Promise<{ audits: object; scoreX100: number }>;
   maxScore: number;
   name: string;
+  recordKey: string;
 };
 
 const DEVICE = {
@@ -51,54 +52,63 @@ const LANDING_TARGET_LIST: Target[] = [
     func: calculateHomePage,
     maxScore: 100,
     name: 'ホームを開く',
+    recordKey: 'score_home',
   },
   {
     device: DEVICE,
     func: calculateFreeEpisodePage,
     maxScore: 100,
     name: 'エピソード視聴（無料作品）を開く',
+    recordKey: 'score_free_episode',
   },
   {
     device: DEVICE,
     func: calculatePremiumEpisodePage,
     maxScore: 100,
     name: 'エピソード視聴（プレミアム作品）を開く',
+    recordKey: 'score_premium_episode',
   },
   {
     device: DEVICE,
     func: calculateTimetablePage,
     maxScore: 100,
     name: '番組表を開く',
+    recordKey: 'score_timetable',
   },
   {
     device: DEVICE,
     func: calculateUpcomingPromgramPage,
     maxScore: 100,
     name: '番組視聴（放送前）を開く',
+    recordKey: 'score_upcoming_program',
   },
   {
     device: DEVICE,
     func: calculateBroadcastingProgramPage,
     maxScore: 100,
     name: '番組視聴（放送中）を開く',
+    recordKey: 'score_broadcasting_program',
   },
   {
     device: DEVICE,
     func: calculateArchivedProgramPage,
     maxScore: 100,
     name: '番組視聴（放送後）を開く',
+    recordKey: 'score_archived_program',
   },
   {
     device: DEVICE,
     func: calculateSeriesPage,
     maxScore: 100,
     name: 'シリーズを開く',
+    recordKey: 'score_series',
   },
   {
     device: DEVICE,
     func: calculateNotFoundPage,
     maxScore: 100,
     name: '404 ページを開く',
+    recordKey: 'score_not_found',
   },
 ];
 
@@ -108,36 +118,42 @@ const USER_FLOW_TARGET_LIST: Target[] = [
     func: calculateUserAuthFlowAction,
     maxScore: 50,
     name: 'ユーザーフロー: 新規作成 → ログアウト → ログイン',
+    recordKey: 'flow_score_user_auth',
   },
   {
     device: DEVICE,
     func: calculateTimetableGutterFlowAction,
     maxScore: 50,
     name: 'ユーザーフロー: 番組表のカラムの拡大縮小',
+    recordKey: 'flow_score_timetable_gutter',
   },
   {
     device: DEVICE,
     func: calculateHomeSeriesEpisodeFlowAction,
     maxScore: 50,
     name: 'ユーザーフロー: ホーム → シリーズ → エピソード',
+    recordKey: 'flow_score_home_series',
   },
   {
     device: DEVICE,
     func: calculateTimetableProgramEpisodeFlowAction,
     maxScore: 50,
     name: 'ユーザーフロー: 番組表 → モーダル → 番組 → 関連エピソード',
+    recordKey: 'flow_score_timetable',
   },
   {
     device: DEVICE,
     func: calculateEpisodePlayStartedPage,
     maxScore: 50,
     name: '再生開始までの時間: エピソード',
+    recordKey: 'flow_score_episode_play',
   },
   {
     device: DEVICE,
     func: calculateProgramPlayStartedPage,
     maxScore: 50,
     name: '再生開始までの時間: 番組',
+    recordKey: 'flow_score_program_play',
   },
 ];
 
@@ -185,9 +201,10 @@ export async function* calculate({ baseUrl }: Params): AsyncGenerator<Result, vo
     for (const target of USER_FLOW_TARGET_LIST) {
       yield { error: new Error('アプリが重いため、計測をスキップしました'), scoreX100: 0, target };
     }
-  } else {
-    for await (const result of _calculate({ baseUrl, targets: USER_FLOW_TARGET_LIST })) {
-      yield result;
-    }
+    return;
+  }
+
+  for await (const result of _calculate({ baseUrl, targets: USER_FLOW_TARGET_LIST })) {
+    yield result;
   }
 }
