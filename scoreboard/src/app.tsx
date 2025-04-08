@@ -18,13 +18,16 @@ export function App() {
 
   if (Array.isArray(state)) {
     return (
-      <ul>
-        {state.map((x, i) => (
-          <li>
-            #{i}: {x.username}: {x.latest_score_total}
-          </li>
-        ))}
-      </ul>
+      <>
+        <h1>WSH2025 限界開発鯖感想戦 順位表</h1>
+        <ul>
+          {state.map((x, i) => (
+            <li>
+              #{i + 1}: {x.username}: {x.latest_score_total}
+            </li>
+          ))}
+        </ul>
+      </>
     );
   }
 }
