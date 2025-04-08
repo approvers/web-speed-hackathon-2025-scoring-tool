@@ -152,7 +152,7 @@ const command = defineCommand({
         shareUrl.searchParams.set(
           'text',
           stripIndents`
-            "Web Speed Hackathon 2025" に挑戦中です！
+            "Web Speed Hackathon 2025 限界開発鯖感想戦" に挑戦中です！
             スコア: ${totalScore.toFixed(2)} / ${totalMaxScore.toFixed(2)}
             ${rank != null ? `現在 ${rank} 位です` : ''}
           `,
