@@ -58,7 +58,9 @@ jobs:
       - run: |
           pnpm start --applicationUrl ${TARGET_URL} --participationKind ${PKIND}
         env:
+          TZ: "Asia/Tokyo"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TZ: 'Asia/Tokyo'
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           TARGET_URL: ${{ fromJSON(steps.issue-parsed.outputs.payload).url }}
           PKIND: ${{ fromJSON(steps.issue-parsed.outputs.payload).kind }}
