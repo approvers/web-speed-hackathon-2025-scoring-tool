@@ -19,6 +19,7 @@ const configs = [
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
       'sort/object-properties': "off",
       'sort/type-properties': "off",
+      'sort/destructuring-properties': "off",
       'no-console': 'off',
       'no-restricted-imports': ['error', 'consola'],
     },
