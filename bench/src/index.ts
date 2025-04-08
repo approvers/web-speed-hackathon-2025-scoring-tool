@@ -119,7 +119,7 @@ const command = defineCommand({
         }
 
         const scoreTable = [
-          '|テスト項目|スコア|FCP|LCP|SI|TTI|TBT|CLS|',
+          '|テスト項目|スコア|FCP|LCP|SI|TBT|CLS|',
           '|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|',
           ...results.map(({ error, scoreX100, target, audits }) => {
             const scoreText =
@@ -128,7 +128,6 @@ const command = defineCommand({
               audits['first-contentful-paint'],
               audits['largest-contentful-paint'],
               audits['speed-index'],
-              audits['total-blocking-time'],
               audits['total-blocking-time'],
               audits['cumulative-layout-shift'],
             ].map((n) => (n?.score == null ? '-' : `${Math.round(n.score * 100)}`));
