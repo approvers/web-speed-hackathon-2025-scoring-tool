@@ -119,12 +119,24 @@ const command = defineCommand({
         }
 
         const scoreTable = [
-          '|テスト項目|スコア|',
-          '|:---|---:|',
-          ...results.map(({ error, scoreX100, target }) => {
+          '|テスト項目|スコア|FCP|LCP|SI|TTI|TBT|CLS|',
+          '|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|',
+          ...results.map(({ error, scoreX100, target, audits }) => {
             const scoreText =
               error != null ? '計測できません' : `${(scoreX100 / 100).toFixed(2)} / ${target.maxScore.toFixed(2)}`;
-            return `| ${target.name} | ${scoreText} |`;
+            const metrics = [
+              audits['first-contentful-paint'],
+              audits['largest-contentful-paint'],
+              audits['speed-index'],
+              audits['total-blocking-time'],
+              audits['total-blocking-time'],
+              audits['cumulative-layout-shift'],
+            ].map((n) => (n?.score == null ? '-' : `${Math.round(n.score)}`));
+            let res = `| ${target.name} | ${scoreText} |`;
+            for (const m of metrics) {
+              res += `${m}|`;
+            }
+            return res;
           }),
         ].join('\n');
 

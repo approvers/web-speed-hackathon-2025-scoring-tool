@@ -1,5 +1,5 @@
 export interface Result {
-  audits: object;
+  audits: Record<string, { score: number | null }>;
   error?: Error;
   scoreX100: number;
 

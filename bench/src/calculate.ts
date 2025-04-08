@@ -30,7 +30,7 @@ type Target = {
     baseUrl: string;
     playwrightPage: playwright.Page;
     puppeteerPage: puppeteer.Page;
-  }) => Promise<{ audits: object; scoreX100: number }>;
+  }) => Promise<{ audits: Record<string, { score: number | null }>; scoreX100: number }>;
   maxScore: number;
   name: string;
   recordKey: string;
