@@ -175,11 +175,11 @@ async function* _calculate({
 
     try {
       const { playwrightPage, puppeteerPage } = context;
-      const { scoreX100 } = await target.func({ baseUrl, playwrightPage, puppeteerPage });
-      yield { scoreX100, target };
+      const { audits, scoreX100 } = await target.func({ baseUrl, playwrightPage, puppeteerPage });
+      yield { scoreX100, target, audits, dbRecordKey: target.recordKey };
     } catch (err) {
       consola.error(mergeErrorCause(err));
-      yield { error: err as Error, scoreX100: 0, target };
+      yield { error: err as Error, scoreX100: 0, target, audits: {}, dbRecordKey: target.recordKey };
     }
 
     // サーバー負荷が落ち着くまで、10秒待つ
@@ -199,7 +199,13 @@ export async function* calculate({ baseUrl }: Params): AsyncGenerator<Result, vo
 
   if (landingTotalScore < 200) {
     for (const target of USER_FLOW_TARGET_LIST) {
-      yield { error: new Error('アプリが重いため、計測をスキップしました'), scoreX100: 0, target };
+      yield {
+        error: new Error('アプリが重いため、計測をスキップしました'),
+        scoreX100: 0,
+        target,
+        audits: {},
+        dbRecordKey: target.recordKey,
+      };
     }
     return;
   }

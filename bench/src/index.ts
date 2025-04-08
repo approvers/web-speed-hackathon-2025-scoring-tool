@@ -1,9 +1,9 @@
 import * as github from '@actions/github';
+import { createClient } from '@supabase/supabase-js';
 import { defineCommand, runMain } from 'citty';
 import { stripIndents } from 'common-tags';
 import debug from 'debug';
 import _ from 'lodash';
-import { inject } from 'regexparam';
 
 import { calculate } from './calculate';
 import { consola } from './consola';
@@ -29,15 +29,6 @@ const command = defineCommand({
       type: 'string',
       valueHint: '2025-03-22T10:30:00.000+09:00',
     },
-    dashboardServerToken: {
-      required: false,
-      type: 'string',
-    },
-    dashboardServerUrl: {
-      required: false,
-      type: 'string',
-      valueHint: 'https://scoring-board.example/',
-    },
     participationGitHubId: {
       required: false,
       type: 'string',
@@ -57,41 +48,46 @@ const command = defineCommand({
       applicationUrl,
       competitionEndAt = null,
       competitionStartAt = null,
-      dashboardServerToken = null,
-      dashboardServerUrl = null,
       participationGitHubId = null,
       participationKind = null,
     },
   }) {
-    async function sendScoreToDashboard(score: number): Promise<{ rank: number | null }> {
-      if (dashboardServerUrl == null || dashboardServerToken == null || participationGitHubId == null) {
+    const supabase = (() => {
+      const [url, key] = [process.env['SUPABASE_URL'], process.env['SUPABASE_ANNO_KEY']];
+      if (url == null || key == null) {
+        throw new Error('missing SUPABASE_URL or SUPABASE_ANNO_KEY');
+      }
+      return createClient(url, key);
+    })();
+
+    const sendScoreToDashboard = async (score: number, results: Result[]): Promise<{ rank: number | null }> => {
+      if (participationGitHubId == null) {
+        console.warn('githubid == null');
         return { rank: null };
       }
 
-      const requestUrl = new URL(
-        inject('/api/scores/:userId', {
-          userId: participationGitHubId,
-        }),
-        dashboardServerUrl,
-      );
-      const res = await fetch(requestUrl, {
-        body: JSON.stringify({
-          kind: participationKind === '学生' ? 'STUDENT' : 'GENERAL',
-          previewUrl: applicationUrl,
-          score,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Token: dashboardServerToken,
-        },
-        method: 'POST',
-      });
-
-      if (res.status !== 200) {
-        return { rank: null };
+      const record: Record<string, unknown> = {};
+      for (const r of results) {
+        const d: Record<string, unknown> = { ...r };
+        delete d['dbRecordKey'];
+        record[r.dbRecordKey] = d;
       }
-      return res.json() as Promise<{ rank: number }>;
-    }
+      const res = await supabase
+        .from('scores')
+        .insert({
+          username: participationGitHubId,
+          is_student: participationKind === '学生',
+          score_total: score,
+          ...record,
+        })
+        .select();
+      if (res.error) {
+        throw new Error(`failed to report score`, { cause: res.error });
+      }
+
+      const d = await supabase.from('ranked_scores').select().eq('username', participationGitHubId).single();
+      return { rank: d.data['rank'] as number };
+    };
 
     const writer = (() => {
       if (debug.enabled('wsh:log')) {
@@ -175,7 +171,7 @@ const command = defineCommand({
         const totalScore = _.round(_.sum(_.map(results, ({ scoreX100 }) => scoreX100)) / 100, 2);
         const totalMaxScore = _.sum(_.map(results, ({ target }) => target.maxScore));
 
-        const { rank } = await sendScoreToDashboard(totalScore);
+        const { rank } = await sendScoreToDashboard(totalScore, results);
 
         const shareUrl = new URL('https://x.com/intent/tweet');
         shareUrl.searchParams.set(
