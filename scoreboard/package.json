@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.49.4",
     "preact": "^10.26.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
+    "terser": "^5.39.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   }
