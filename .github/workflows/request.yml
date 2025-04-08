@@ -7,7 +7,7 @@ on:
     types:
       - created
 env:
-  TZ: 'Asia/Tokyo'
+  TZ: "Asia/Tokyo"
 defaults:
   run:
     working-directory: ./bench
@@ -41,8 +41,8 @@ jobs:
         id: issue-parsed
         with:
           issue_id: ${{ github.event.issue.number }}
-          label_marker_start: '{{'
-          label_marker_end: '}}'
+          label_marker_start: "{{"
+          label_marker_end: "}}"
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # renovate: tag=v4.2.2
         with:
           fetch-depth: 0
@@ -52,7 +52,7 @@ jobs:
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise install
         env:
-          MISE_VERSION: '2025.3.2'
+          MISE_VERSION: "2025.3.2"
       - run: |
           pnpm install --frozen-lockfile
       - run: |
