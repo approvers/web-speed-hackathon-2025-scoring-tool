@@ -44,11 +44,5 @@
     "eslint": "9.22.0",
     "globals": "16.0.0",
     "prettier": "3.5.3"
-  },
-  "packageManager": "pnpm@8.15.8+sha256.691fe176eea9a8a80df20e4976f3dfb44a04841ceb885638fe2a26174f81e65e",
-  "pnpm": {
-    "patchedDependencies": {
-      "lighthouse@12.4.0": "patches/lighthouse@12.4.0.patch"
-    }
   }
 }
