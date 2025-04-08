@@ -19,16 +19,6 @@ const command = defineCommand({
       required: true,
       type: 'string',
     },
-    competitionEndAt: {
-      required: false,
-      type: 'string',
-      valueHint: '2025-03-23T18:30:00.000+09:00',
-    },
-    competitionStartAt: {
-      required: false,
-      type: 'string',
-      valueHint: '2025-03-22T10:30:00.000+09:00',
-    },
     participationGitHubId: {
       required: false,
       type: 'string',
@@ -43,17 +33,9 @@ const command = defineCommand({
     description: 'Scoring tool for Web Speed Hackathon 2025',
     name: '@wsh-2025/scoring-tool',
   },
-  async run({
-    args: {
-      applicationUrl,
-      competitionEndAt = null,
-      competitionStartAt = null,
-      participationGitHubId = null,
-      participationKind = null,
-    },
-  }) {
+  async run({ args: { applicationUrl, participationGitHubId = null, participationKind = null } }) {
     const supabase = (() => {
-      const [url, key] = [process.env['SUPABASE_URL'], process.env['SUPABASE_ANNO_KEY']];
+      const [url, key] = [process.env['SUPABASE_URL'], process.env['SUPABASE_SERVICE_KEY']];
       if (url == null || key == null) {
         throw new Error('missing SUPABASE_URL or SUPABASE_ANNO_KEY');
       }
@@ -104,24 +86,6 @@ const command = defineCommand({
 
     const reporter = new Reporter({ writer });
     await reporter.initialize();
-
-    const requestedDate =
-      process.env['GITHUB_ACTIONS'] != null
-        ? new Date(
-            (github.context.eventName === 'issues'
-              ? github.context.payload.issue!['created_at']
-              : github.context.payload.comment!['created_at']) as number,
-          )
-        : new Date();
-
-    if (competitionStartAt != null && new Date(competitionStartAt) <= requestedDate) {
-      await reporter.appendArea('fatalError', '❌ 競技開始前です');
-      return;
-    }
-    if (competitionEndAt != null && requestedDate < new Date(competitionEndAt)) {
-      await reporter.appendArea('fatalError', '❌ 競技は終了しました');
-      return;
-    }
 
     try {
       new URL('/api/initialize', applicationUrl);
