@@ -120,7 +120,7 @@ const command = defineCommand({
 
         const scoreTable = [
           '|テスト項目|スコア|FCP|LCP|SI|TTI|TBT|CLS|',
-          '|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|',
+          '|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|',
           ...results.map(({ error, scoreX100, target, audits }) => {
             const scoreText =
               error != null ? '計測できません' : `${(scoreX100 / 100).toFixed(2)} / ${target.maxScore.toFixed(2)}`;
