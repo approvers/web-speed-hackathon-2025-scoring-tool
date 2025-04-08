@@ -56,8 +56,9 @@ jobs:
       - run: |
           pnpm install --frozen-lockfile
       - run: |
-          pnpm start --applicationUrl ${TARGET_URL}
+          pnpm start --applicationUrl ${TARGET_URL} --participationKind ${PKIND}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TZ: 'Asia/Tokyo'
           TARGET_URL: ${{ fromJSON(steps.issue-parsed.outputs.payload).url }}
+          PKIND: ${{ fromJSON(steps.issue-parsed.outputs.payload).kind }}
