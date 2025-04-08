@@ -16,6 +16,7 @@
     "@actions/github": "6.0.0",
     "@inkkit/ink-markdown": "1.0.0",
     "@playwright/test": "1.51.0",
+    "@supabase/supabase-js": "2.49.4",
     "citty": "0.1.6",
     "common-tags": "1.8.2",
     "consola": "3.4.2",
