@@ -27,6 +27,9 @@ jobs:
         )
       )
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # renovate: tag=v4.2.2
+        with:
+          fetch-depth: 0
       - if: github.event_name == 'issues'
         run: |
           gh api -X POST repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/reactions -f content=+1
@@ -43,9 +46,6 @@ jobs:
           issue_id: ${{ github.event.issue.number }}
           label_marker_start: "{{"
           label_marker_end: "}}"
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # renovate: tag=v4.2.2
-        with:
-          fetch-depth: 0
       - run: |
           curl https://mise.run | sh
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
