@@ -8,4 +8,5 @@
 
 - Actions で抜けている引数周りを追加 [pkind](https://github.com/approvers/web-speed-hackathon-2025-scoring-tool/commit/09de7919f3638f98b3e08201e1b0a75d3865582c), [ghid](https://github.com/approvers/web-speed-hackathon-2025-scoring-tool/commit/9de32eff9374ccd07607e84cb64a88f9d7dd7cfe)
 - コンテスト時間制限を撤廃
+- Lighthouse の各メトリクスを Issue に出す
 - スコア永続化周り
