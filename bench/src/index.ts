@@ -131,7 +131,7 @@ const command = defineCommand({
               audits['total-blocking-time'],
               audits['total-blocking-time'],
               audits['cumulative-layout-shift'],
-            ].map((n) => (n?.score == null ? '-' : `${Math.round(n.score)}`));
+            ].map((n) => (n?.score == null ? '-' : `${Math.round(n.score * 100)}`));
             let res = `| ${target.name} | ${scoreText} |`;
             for (const m of metrics) {
               res += `${m}|`;
