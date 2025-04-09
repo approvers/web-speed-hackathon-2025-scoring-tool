@@ -31,4 +31,4 @@ jobs:
           git config --local user.name "GitHub Actions[Bot]"
           git add -A
           git commit -m "auto release"
-          git push --force
+          git push --set-upstream origin scoreboard-release --force
