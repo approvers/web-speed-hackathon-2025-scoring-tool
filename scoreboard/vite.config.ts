@@ -6,9 +6,9 @@ import preact from "@preact/preset-vite";
 export default defineConfig({
   build: {
     minify: "terser",
-    modulePreload: true,
     terserOptions: { compress: { passes: 5 } },
-    target: ["chrome130"],
+    target: ["esnext"],
+    modulePreload: { polyfill: false },
   },
   plugins: [preact(), UnoCSS()],
 });

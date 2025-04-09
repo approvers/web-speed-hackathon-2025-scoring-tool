@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "tsc -b && vite build",
+    "build:dev": "tsc -b && vite build --minify false",
     "preview": "vite preview"
   },
   "dependencies": {
