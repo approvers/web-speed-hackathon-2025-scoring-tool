@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # renovate: tag=v4.2.2
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v2
 
@@ -23,6 +25,8 @@ jobs:
           pnpm build
           git worktree add scoreboard-release
           cd scoreboard-release
+          git status
+          git log --oneline
           git reset --hard 381cc9d
           mv ../dist/* .
           git config --local user.email "ghost@users.noreply.github.com"
