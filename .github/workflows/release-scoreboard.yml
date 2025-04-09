@@ -6,7 +6,7 @@ permissions:
   contents: write
 jobs:
   register:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # renovate: tag=v4.2.2
@@ -32,3 +32,6 @@ jobs:
           git add -A
           git commit -m "auto release"
           git push --set-upstream origin scoreboard-release --force
+        env:
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
