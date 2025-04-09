@@ -1,0 +1,31 @@
+name: Release Scoreboard
+on:
+  push:
+    branches: [master]
+permissions:
+  contents: write
+jobs:
+  register:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # renovate: tag=v4.2.2
+
+      - uses: pnpm/action-setup@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: "pnpm"
+
+      - run: |
+          pnpm i --frozen-lockfile
+          cd scoreboard
+          pnpm build
+          git worktree add scoreboard-release
+          cd scoreboard-release
+          git reset --hard 381cc9dc
+          mv ../dist/* .
+          git config --local user.email "ghost@users.noreply.github.com"
+          git config --local user.name "GitHub Actions[Bot]"
+          git commit -a -m "auto release"
+          git push --force
