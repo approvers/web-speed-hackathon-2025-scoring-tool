@@ -45,15 +45,13 @@ function ScoreUser({ i, data }: { i: number; data: ScoreData }) {
 
 function ScoreSection(props: { data: Array<ScoreData> }) {
   return (
-    <>
-      <ul>
-        {props.data.map((x, i) => (
-          <li key={x.username}>
-            <ScoreUser i={i} data={x} />
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {props.data.map((x, i) => (
+        <li key={x.username}>
+          <ScoreUser i={i} data={x} />
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -73,7 +71,11 @@ function Scoreboard() {
   }
 
   if ("error" in state) {
-    return <p>Error: {state.error}</p>;
+    return (
+      <code className="font-mono text-center block whitespace-pre-wrap">
+        Error: {JSON.stringify(state.error, null, 4)}
+      </code>
+    );
   }
 
   return <ScoreSection data={state} />;
