@@ -27,7 +27,7 @@ function ScoreUser({ i, data }: { i: number; data: ScoreData }) {
   return (
     <div className="font-mono p-4 flex justify-between items-center">
       <span>
-        #{i + 1}:
+        #{i}:
         <OutsideLink href={`https://github.com/${username}`}>
           <img
             className="inline rounded-full w-[4rem] h-[4rem] mx-4"
@@ -48,7 +48,7 @@ function ScoreSection(props: { data: Array<ScoreData> }) {
     <ul>
       {props.data.map((x, i) => (
         <li key={x.username}>
-          <ScoreUser i={i} data={x} />
+          <ScoreUser i={i + 1} data={x} />
         </li>
       ))}
     </ul>
