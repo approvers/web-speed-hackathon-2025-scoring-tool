@@ -37,7 +37,7 @@ function ScoreUser({ i, data }: { i: number; data: ScoreData }) {
         </OutsideLink>
       </span>
       <span className={`inline-block align-middle ${color}`} style={{ color }}>
-        {score} pt
+        {score} / 1200 pt
       </span>
     </div>
   );
