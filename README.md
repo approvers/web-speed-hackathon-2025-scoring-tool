@@ -21,7 +21,7 @@
 1. このレポジトリをお好きな場所に複製してください。fork で無くて結構です。
 1. supabase をセットアップし、`misc/table.sql` を実行してテーブルを作成します。
 1. supabase の service key に scores の select/insert, anon key に select を許可します。
-1. GitHub のレポジトリ設定からに下記の必要な変数を設定します。
+1. GitHub のレポジトリ設定から下記の必要な変数を設定します。
 1. 何かしら main にコミットすると、GitHub Pages を用いてスコアボードのデプロイが行われます。
 1. 大会名等お好みでソースコードを変更してください。
 1. 使用される場合は [作者](https://x.com/kawason0708) に教えてもらえると大変嬉しいです。必須ではありません。
