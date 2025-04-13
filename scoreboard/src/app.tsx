@@ -16,7 +16,7 @@ function OutsideLink(props: { href: string; children: ReactNode }) {
   );
 }
 
-function ScoreUser({ i, data }: { i: number; data: ScoreData }) {
+function ScoreUser({ rank, data }: { rank: number; data: ScoreData }) {
   const { username, latest_score_total: score } = data;
   const green = "rgb(0, 204, 101)";
   const orange = "rgb(255, 170, 53)";
@@ -27,7 +27,7 @@ function ScoreUser({ i, data }: { i: number; data: ScoreData }) {
   return (
     <div className="font-mono p-4 flex justify-between items-center">
       <span>
-        #{i}:
+        #{rank}:
         <OutsideLink href={`https://github.com/${username}`}>
           <img
             className="inline rounded-full w-[4rem] h-[4rem] mx-4"
@@ -48,7 +48,7 @@ function ScoreSection(props: { data: Array<ScoreData> }) {
     <ul>
       {props.data.map((x, i) => (
         <li key={x.username}>
-          <ScoreUser i={i + 1} data={x} />
+          <ScoreUser rank={i + 1} data={x} />
         </li>
       ))}
     </ul>
