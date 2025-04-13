@@ -22,12 +22,13 @@ function ScoreUser({ rank, data }: { rank: number; data: ScoreData }) {
   const orange = "rgb(255, 170, 53)";
   const red = "rgb(250, 52, 53)";
 
-  const color = score >= 710 ? green : score < 360 ? red : orange;
+  const rankColor = rank === 1 ? "text-blue" : rank <= 3 ? "text-yellow" : "";
+  const scoreColor = score >= 710 ? green : score < 360 ? red : orange;
 
   return (
     <div className="font-mono p-4 flex justify-between items-center">
       <span>
-        #{rank}:
+        <span className={rankColor}>#{rank}:</span>
         <OutsideLink href={`https://github.com/${username}`}>
           <img
             className="inline rounded-full w-[4rem] h-[4rem] mx-4"
@@ -36,7 +37,7 @@ function ScoreUser({ rank, data }: { rank: number; data: ScoreData }) {
           {username}
         </OutsideLink>
       </span>
-      <span className={`inline-block align-middle ${color}`} style={{ color }}>
+      <span className="inline-block align-middle" style={{ color: scoreColor }}>
         {score} / 1200 pt
       </span>
     </div>
@@ -83,7 +84,7 @@ function Scoreboard() {
 
 export function App() {
   return (
-    <div className="md:max-w-screen-md md:mx-auto">
+    <div className="dark md:max-w-screen-md md:mx-auto">
       <div className="w-full mx-auto flex items-center flex-col my-4">
         <h1 className="font-bold text-xl">WebSpeedHackathon 2025</h1>
         <h2>限界開発鯖 感想戦</h2>
