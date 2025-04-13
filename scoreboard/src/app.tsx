@@ -86,7 +86,7 @@ export function App() {
     <div className="md:max-w-screen-md md:mx-auto">
       <div className="w-full mx-auto flex items-center flex-col my-4">
         <h1 className="font-bold text-xl">WebSpeedHackathon 2025</h1>
-        <h2>限界開発鯖感想戦</h2>
+        <h2>限界開発鯖 感想戦</h2>
         <div className="my-2">
           <OutsideLink href="https://x.com/UfiApprovers">
             <i className="m-2 inline-block text-2xl i-line-md-twitter-x" />
