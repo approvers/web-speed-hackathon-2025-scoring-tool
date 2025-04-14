@@ -1,10 +1,6 @@
-import { ReactNode } from "preact/compat";
+import type { ReactNode } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
-
-interface ScoreData {
-  username: string;
-  latest_score_total: number;
-}
+import type { ScoreData } from "./db";
 
 type State = Array<ScoreData> | { error: string } | null;
 
@@ -34,6 +30,7 @@ function ScoreUser({ rank, data }: { rank: number; data: ScoreData }) {
             className="inline rounded-full w-[4rem] h-[4rem] mx-4"
             loading="lazy"
             decoding="async"
+            alt={`GitHub icon for ${username}`}
             src={`https://github.com/${username}.png`}
           />
           {username}
@@ -62,11 +59,16 @@ function Scoreboard() {
   const [state, setState] = useState<State>(null);
 
   useEffect(() => {
+    let gone = false;
     (async () => {
-      const m = await import("./db");
-      const res = await m.supabase.from("ranked_scores").select().order("rank");
-      setState(res.error == null ? res.data : { error: res.error.message });
+      const res = await (await import("./db")).getScoreboard();
+      if (!gone) {
+        setState("error" in res ? { error: res.error.message } : res);
+      }
     })();
+    return () => {
+      gone = true;
+    };
   }, []);
 
   if (state == null) {
