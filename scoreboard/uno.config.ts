@@ -1,9 +1,9 @@
 import {
   defineConfig,
-  presetWind4,
-  transformerDirectives,
   presetAttributify,
   presetIcons,
+  presetWind4,
+  transformerDirectives,
 } from "unocss";
 
 export default defineConfig({
