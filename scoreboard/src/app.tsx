@@ -32,6 +32,8 @@ function ScoreUser({ rank, data }: { rank: number; data: ScoreData }) {
         <OutsideLink href={`https://github.com/${username}`}>
           <img
             className="inline rounded-full w-[4rem] h-[4rem] mx-4"
+            loading="lazy"
+            decoding="async"
             src={`https://github.com/${username}.png`}
           />
           {username}
