@@ -24,7 +24,7 @@
     "debug": "4.4.0",
     "ink": "5.2.0",
     "lighthouse": "12.4.0",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "merge-error-cause": "5.0.1",
     "mockdate": "3.0.5",
     "playwright": "npm:playwright-core@1.51.0",
